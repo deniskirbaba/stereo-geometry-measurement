@@ -1,0 +1,73 @@
+[project]
+name = 'pixelpoint'
+dynamic = ['version']
+
+classifiers = [
+  'Development Status :: 5 - Production/Stable',
+  'Programming Language :: Python',
+  'Programming Language :: Python :: 3.10',
+  'Programming Language :: Python :: 3 :: Only',
+]
+requires-python = '==3.10'
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  'pre-commit',
+  'black',
+  'isort',
+  'pylint',
+  'commitizen',
+]
+
+[build-system]
+requires = [
+  'setuptools>=64',
+  'setuptools_scm>=8',
+]
+build-backend = 'setuptools.build_meta'
+
+[tool.setuptools_scm]
+# presence enables setuptools_scm
+
+[tool.commitizen]
+name = 'cz_conventional_commits'
+tag_format = '$version'
+version_scheme = 'pep440'
+version_provider = 'pep621'
+update_changelog_on_bump = true
+major_version_zero = true
+
+[tool.black]
+line-length = 120
+target-version = ['py310']
+include = '\.pyi?$|\.ipynbi?$'
+
+[tool.isort]
+profile = 'black'
+line_length = 120
+ensure_newline_before_comments = true
+force_single_line = true
+
+[tool.docformatter]
+recursive = true
+wrap-summaries = 0
+wrap-descriptions = 0
+blank = true
+black = true
+pre-summary-newline = true
+
+[tool.yamlfix]
+line_length = 120
+explicit_start = false
+sequence_style = 'keep_style'
+whitelines = 1
+section_whitelines = 1
+
+[tool.pylint.format]
+max-line-length = 120
+
+[tool.pylint.messages_control]
+disable = [
+  'missing-docstring',
+]

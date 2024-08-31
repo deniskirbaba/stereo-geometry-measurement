@@ -1,0 +1,108 @@
+default_install_hook_types: [commit-msg, pre-commit]
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-ast
+      - id: check-xml
+      - id: pretty-format-json
+        args: [--autofix, --no-ensure-ascii]
+        exclude_types: [jupyter]
+      - id: fix-byte-order-marker
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-added-large-files
+        args: [--maxkb=10240]
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: destroyed-symlinks
+      - id: debug-statements
+      - id: detect-private-key
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.4
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.17
+    hooks:
+      - id: mdformat
+        additional_dependencies: [mdformat-gfm, mdformat-black, mdformat-shfmt, mdformat-myst]
+
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+        args:
+          - --format
+          - parsable
+          - --strict
+          - -d
+          - '{extends: relaxed, rules: {line-length: {max: 120}}}'
+
+  - repo: https://github.com/lyz-code/yamlfix
+    rev: 1.16.0
+    hooks:
+      - id: yamlfix
+
+  - repo: https://github.com/AleksaC/hadolint-py
+    rev: v2.12.1b3
+    hooks:
+      - id: hadolint
+        args: [--failure-threshold, error]
+
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.29.0
+    hooks:
+      - id: commitizen
+
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+        args: [--format, gcc]
+
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.7.1
+    hooks:
+      - id: nbstripout
+
+  - repo: https://github.com/sphinx-contrib/sphinx-lint
+    rev: v0.9.1
+    hooks:
+      - id: sphinx-lint
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.16.0
+    hooks:
+      - id: pyupgrade
+        args: [--py38-plus]
+
+  - repo: https://github.com/psf/black
+    rev: 24.8.0
+    hooks:
+      - id: black
+
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+
+  - repo: https://github.com/PyCQA/docformatter
+    rev: v1.7.5
+    hooks:
+      - id: docformatter
+        additional_dependencies: [tomli]
+
+  - repo: https://github.com/PyCQA/pylint
+    rev: v3.2.6
+    hooks:
+      - id: pylint
+        language: system
+        args: [-rn, -sn]
