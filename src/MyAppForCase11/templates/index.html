@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelPoint Case 11</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>PixelPoint Case 11</h1>
+
+        <div class="form-section">
+            <h2>Upload Images</h2>
+            <div id="image-upload-section">
+                <label for="image1">First Image:</label>
+                <input type="file" id="image1" name="image1"><br>
+                <label for="image2">Second Image:</label>
+                <input type="file" id="image2" name="image2">
+            </div>
+
+            <h2 id="model-upload-title" style="display:none;">3D MODELS</h2>
+            <div id="model-upload-section" style="display:none;">
+                <label for="model">Upload 3D Model:</label>
+                <input type="file" id="model" name="model">
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>Camera Parameters and Distance</h2>
+            <label for="focal_length">Focal length:</label>
+            <input type="text" id="focal_length" name="focal_length"><br>
+            <p>Current Focal Length: <span id="focal_length_display"></span></p>
+
+            <label for="pixel_size">Pixel size:</label>
+            <input type="text" id="pixel_size" name="pixel_size"><br>
+            <p>Current Pixel Size: <span id="pixel_size_display"></span></p>
+
+            <label for="sensor_resolution">Sensor Resolution:</label>
+            <input type="text" id="sensor_resolution" name="sensor_resolution"><br>
+            <p>Current Sensor Resolution: <span id="sensor_resolution_display"></span></p>
+
+            <label for="sensor_size">Sensor Size (W H):</label>
+            <input type="text" id="sensor_size" name="sensor_size"><br>
+            <p>Current Sensor Size: <span id="sensor_size_display"></span></p>
+
+            <label for="distance">Distance:</label>
+            <input type="text" id="distance" name="distance"><br>
+            <p>Current Distance: <span id="distance_display"></span></p>
+        </div>
+
+        <label class="switch">
+            <input type="checkbox" id="switch">
+            <span class="slider"></span>
+            Switch to 3D MODELS
+        </label>
+
+        <button id="process-btn" class="submit-btn">Upload and Process</button>
+
+        <div class="form-section">
+            <h2>Results</h2>
+            <p>Action Result: <span id="action_result"></span></p>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
