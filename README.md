@@ -38,12 +38,12 @@ rm blender-3.6.0-linux-x64.tar.xz
 ```
 - save_dir
     - pair_0
-        - object_1.png
-        - object_2.png
+        - image_left.png
+        - image_right.png
     - pair_1
-        - object_1.png
-        - object_2.png
+        - image_left.png
+        - image_right.png
     ...
 ```
 
-где в папках `pair_*` лежат сгенерированные пары изображений с рандомным расположением камер.
+где в папках `pair_*` лежат сгенерированные пары изображений с рандомными поворотами по оси Z.
