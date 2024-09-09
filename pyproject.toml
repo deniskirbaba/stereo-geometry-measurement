@@ -9,7 +9,15 @@ classifiers = [
   'Programming Language :: Python :: 3 :: Only',
 ]
 requires-python = '==3.10.*'
-dependencies = []
+
+dependencies = [
+  'bpy==4.0.0',
+  'google-auth==2.34.0',
+  'pandas>=2.0.0',
+  'protobuf>=5.0.0',
+  'pyasn1_modules>=0.2.1',
+  'six>=1.9.0',
+]
 
 [project.optional-dependencies]
 dev = [
@@ -19,6 +27,9 @@ dev = [
   'pylint',
   'commitizen',
 ]
+
+[project.scripts]
+render-cli = 'pixelpoint.render:main'
 
 [build-system]
 requires = [
@@ -66,6 +77,8 @@ section_whitelines = 1
 
 [tool.pylint.format]
 max-line-length = 120
+max-args = 10
+
 
 [tool.pylint.messages_control]
 disable = [
