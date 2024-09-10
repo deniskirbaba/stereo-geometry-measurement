@@ -1,3 +1,5 @@
+import argparse
+from pathlib import Path
 from typing import NamedTuple
 
 import cv2
@@ -58,7 +60,6 @@ def _find_homography_sift(image_left: np.ndarray, image_right: np.ndarray) -> np
 
 def _detect_circles(image: np.ndarray) -> list[Circle]:
     # Step 2: Detect circles in the left image using HoughCircles
-    # gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     circles = cv2.HoughCircles(
         image, cv2.HOUGH_GRADIENT, dp=1.2, minDist=100, param1=50, param2=30, minRadius=40, maxRadius=80
     )
@@ -72,8 +73,7 @@ def _detect_circles(image: np.ndarray) -> list[Circle]:
 
 def _map_circles_homography(circles_left: list[Circle], homography_matrix: np.ndarray) -> list[Circle]:
     # Step 3: Use homography to find corresponding circles in the right image
-    points_left = np.array([[circle.x, circle.y] for circle in circles_left], dtype=np.float32)
-    points_left = np.array([points_left])
+    points_left = np.array([[circle.x, circle.y] for circle in circles_left], dtype=np.float32)[None, ...]
 
     # Transform the points using the homography matrix
     points_right = cv2.perspectiveTransform(points_left, homography_matrix)
@@ -83,3 +83,37 @@ def _map_circles_homography(circles_left: list[Circle], homography_matrix: np.nd
         Circle(idx=circles_left[i].idx, x=int(pt[0]), y=int(pt[1])) for i, pt in enumerate(points_right[0])
     ]
     return circles_right
+
+
+def main():
+    np.random.seed(42)
+
+    parser = argparse.ArgumentParser(description="Match circles on paired images.")
+    parser.add_argument("--left-image-path", type=str, required=True, help="")
+    parser.add_argument("--right-image-path", type=str, required=True, help="")
+    parser.add_argument("--output-dir", type=str, required=True, help="Directory to save images with visualization.")
+    args = parser.parse_args()
+
+    image_left = cv2.imread(args.left_image_path)
+    image_left = cv2.cvtColor(image_left, cv2.COLOR_BGR2GRAY)
+
+    image_right = cv2.imread(args.right_image_path)
+    image_right = cv2.cvtColor(image_right, cv2.COLOR_BGR2GRAY)
+
+    matches = match_circles(image_left=image_left, image_right=image_right)
+
+    draw_image_left = cv2.cvtColor(image_left, cv2.COLOR_GRAY2RGB)
+    draw_image_right = cv2.cvtColor(image_right, cv2.COLOR_GRAY2RGB)
+
+    for i, (matches_left, matches_right) in enumerate(matches):
+        color_int = np.random.randint(128, 255, 1).item()
+        color = [0 for _ in range(3)]
+        color[i % 3] = color_int
+
+        draw_image_left = cv2.circle(draw_image_left, (matches_left.x, matches_left.y), 10, color, 20)
+        draw_image_right = cv2.circle(draw_image_right, (matches_right.x, matches_right.y), 10, color, 20)
+
+    output_dir = Path(args.output_dir)
+    output_dir.mkdir(exist_ok=True, parents=True)
+    cv2.imwrite((output_dir / "image_left.png").as_posix(), draw_image_left)
+    cv2.imwrite((output_dir / "image_right.png").as_posix(), draw_image_right)

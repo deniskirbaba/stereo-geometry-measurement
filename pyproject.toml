@@ -30,6 +30,7 @@ dev = [
 
 [project.scripts]
 render-cli = 'pixelpoint.render:main'
+match-circles-cli = 'pixelpoint.matching:main'
 
 [build-system]
 requires = [

@@ -18,6 +18,7 @@
 ### Установка Пакета
 
 pip install .
+pip install git+https://github.com/cvg/LightGlue.git@main
 
 ### Гененрация синтетических изображений
 
