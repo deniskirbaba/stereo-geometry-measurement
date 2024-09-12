@@ -1,6 +1,8 @@
 import argparse
 from pathlib import Path
+from typing import List
 from typing import NamedTuple
+from typing import Tuple
 
 import cv2
 import numpy as np
@@ -12,7 +14,7 @@ class Circle(NamedTuple):
     x: int  # circle coord by width
 
 
-def match_circles(image_left: np.ndarray, image_right: np.ndarray) -> tuple[list[Circle], list[Circle]]:
+def match_circles(image_left: np.ndarray, image_right: np.ndarray) -> Tuple[List[Circle], List[Circle]]:
     # Find homography between the two images
     homography_matrix = _find_homography_sift(image_left, image_right)
 
@@ -58,7 +60,7 @@ def _find_homography_sift(image_left: np.ndarray, image_right: np.ndarray) -> np
     return homography_matrix
 
 
-def _detect_circles(image: np.ndarray) -> list[Circle]:
+def _detect_circles(image: np.ndarray) -> List[Circle]:
     # Step 2: Detect circles in the left image using HoughCircles
     circles = cv2.HoughCircles(
         image, cv2.HOUGH_GRADIENT, dp=1.2, minDist=100, param1=50, param2=30, minRadius=40, maxRadius=80
@@ -71,7 +73,7 @@ def _detect_circles(image: np.ndarray) -> list[Circle]:
     return [Circle(idx=i, x=c[0].item(), y=c[1].item()) for i, c in enumerate(circles)]
 
 
-def _map_circles_homography(circles_left: list[Circle], homography_matrix: np.ndarray) -> list[Circle]:
+def _map_circles_homography(circles_left: List[Circle], homography_matrix: np.ndarray) -> List[Circle]:
     # Step 3: Use homography to find corresponding circles in the right image
     points_left = np.array([[circle.x, circle.y] for circle in circles_left], dtype=np.float32)[None, ...]
 
