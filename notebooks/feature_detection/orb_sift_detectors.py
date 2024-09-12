@@ -1,22 +1,11 @@
+import argparse
+import os
+
 import cv2
+import matplotlib.pyplot as plt
 
 
 def extract_keypoints_and_descriptors(img_1_path, img_2_path, detector_type="ORB"):
-    """
-    Extracts keypoints and descriptors from two images.
-
-    Args:
-        img_1_path (str): Path to the first image.
-        img_2_path (str): Path to the second image.
-        detector_type (str): Feature detector to use ('ORB', 'SIFT'). Default is 'ORB'.
-
-    Returns:
-        tuple: A tuple containing keypoints and descriptors for both images:
-            - keypoints_1, descriptors_1: Keypoints and descriptors of the first image.
-            - keypoints_2, descriptors_2: Keypoints and descriptors of the second image.
-
-    """
-
     img1 = cv2.imread(img_1_path, cv2.IMREAD_GRAYSCALE)
     img2 = cv2.imread(img_2_path, cv2.IMREAD_GRAYSCALE)
 
@@ -36,16 +25,58 @@ def extract_keypoints_and_descriptors(img_1_path, img_2_path, detector_type="ORB
     return (keypoints_1, descriptors_1), (keypoints_2, descriptors_2)
 
 
-if __name__ == "__main__":
-    TEST_IMGS_PATH = "test_imgs/"
-    IMG_PATH_1 = TEST_IMGS_PATH + "cam1_1.jpg"
-    IMG_PATH_2 = TEST_IMGS_PATH + "cam2_1.jpg"
+def draw_keypoints(image_path, keypoints):
+    img = cv2.imread(image_path)
+    img_with_keypoints = cv2.drawKeypoints(
+        img, keypoints, None, color=(0, 255, 0), flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS
+    )
+
+    img_with_keypoints_rgb = cv2.cvtColor(img_with_keypoints, cv2.COLOR_BGR2RGB)
+
+    plt.figure(figsize=(8, 8))
+    plt.imshow(img_with_keypoints_rgb)
+    plt.axis("off")
+    plt.show()
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Extract keypoints and descriptors from stereo images using ORB or SIFT."
+    )
+    parser.add_argument(
+        "--detector",
+        type=str,
+        default="ORB",
+        choices=["ORB", "SIFT"],
+        help="Feature detector to use (ORB or SIFT). Default is ORB.",
+    )
+    parser.add_argument("--img1", type=str, default=None, help="Path to the first image. Default is data/cam1_1.jpg.")
+    parser.add_argument("--img2", type=str, default=None, help="Path to the second image. Default is data/cam2_1.jpg.")
+
+    args = parser.parse_args()
+
+    script_dir = os.path.dirname(os.path.realpath(__file__))
+    default_img1_path = os.path.join(script_dir, "data", "cam1_1.jpg")
+    default_img2_path = os.path.join(script_dir, "data", "cam2_1.jpg")
+
+    img_1_path = args.img1 if args.img1 else default_img1_path
+    img_2_path = args.img2 if args.img2 else default_img2_path
 
     try:
-        (kp1, d1), (kp2, d2) = extract_keypoints_and_descriptors(IMG_PATH_1, IMG_PATH_2, detector_type="ORB")
+        (kp1, _), (kp2, _) = extract_keypoints_and_descriptors(img_1_path, img_2_path, detector_type=args.detector)
 
+        print(f"Detector: {args.detector}")
         print(f"Keypoints in image 1: {len(kp1)}")
         print(f"Keypoints in image 2: {len(kp2)}")
 
+        draw_keypoints(img_1_path, kp1)
+        draw_keypoints(img_2_path, kp2)
+
     except FileNotFoundError as e:
-        print(e)
+        print(f"Error: {e}")
+    except ValueError as e:
+        print(f"Error: {e}")
+
+
+if __name__ == "__main__":
+    main()
