@@ -1,5 +1,5 @@
 import argparse
-import os
+from pathlib import Path
 
 import cv2 as cv
 import numpy as np
@@ -71,18 +71,24 @@ def visualize_keypoints(image_results):
 def main():
     parser = argparse.ArgumentParser(description="Feature Detection using SuperPoint")
     parser.add_argument(
-        "--image1", type=str, default="data/cam1_1.jpg", help="Path to the first image. Default is 'data/cam1_1.jpg'."
+        "--image1",
+        type=Path,
+        default=Path("data/cam1_1.jpg"),
+        help="Path to the first image. Default is 'data/cam1_1.jpg'.",
     )
     parser.add_argument(
-        "--image2", type=str, default="data/cam2_1.jpg", help="Path to the second image. Default is 'data/cam2_1.jpg'."
+        "--image2",
+        type=Path,
+        default=Path("data/cam2_1.jpg"),
+        help="Path to the second image. Default is 'data/cam2_1.jpg'.",
     )
 
     args = parser.parse_args()
 
-    script_dir = os.path.dirname(os.path.abspath(__file__))
+    script_dir = Path(__file__).resolve().parent
 
-    img_1_path = os.path.join(script_dir, args.image1)
-    img_2_path = os.path.join(script_dir, args.image2)
+    img_1_path = script_dir / args.image1
+    img_2_path = script_dir / args.image2
     image_paths = [img_1_path, img_2_path]
 
     images = load_images(image_paths)
