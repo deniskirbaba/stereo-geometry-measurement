@@ -12,7 +12,22 @@ class Circle(NamedTuple):
     x: int  # circle coord by width
 
 
-def match_circles(image_left: np.ndarray, image_right: np.ndarray) -> tuple[list[Circle], list[Circle]]:
+def draw_images_with_circles(image_left: np.ndarray, image_right: np.ndarray, circles: list[tuple[Circle, Circle]]):
+    draw_image_left = cv2.cvtColor(image_left, cv2.COLOR_GRAY2RGB)
+    draw_image_right = cv2.cvtColor(image_right, cv2.COLOR_GRAY2RGB)
+
+    for i, (circles_left, circles_right) in enumerate(circles):
+        color_int = np.random.randint(128, 255, 1).item()
+        color = [0 for _ in range(3)]
+        color[i % 3] = color_int
+
+        draw_image_left = cv2.circle(draw_image_left, (circles_left.x, circles_left.y), 10, color, 20)
+        draw_image_right = cv2.circle(draw_image_right, (circles_right.x, circles_right.y), 10, color, 20)
+
+    return draw_image_left, draw_image_right
+
+
+def match_circles(image_left: np.ndarray, image_right: np.ndarray) -> list[tuple[Circle, Circle]]:
     # Find homography between the two images
     homography_matrix = _find_homography_sift(image_left, image_right)
 

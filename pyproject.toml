@@ -12,11 +12,24 @@ requires-python = '==3.10.*'
 
 dependencies = [
   'bpy==4.0.0',
+  'opencv-python==4.10.0.*',
+  'matplotlib>=3.9.2',
   'google-auth==2.34.0',
+  'werkzeug>=1.0.1',
   'pandas>=2.0.0',
   'protobuf>=5.0.0',
   'pyasn1_modules>=0.2.1',
   'six>=1.9.0',
+  'fastapi>=0.114.0',
+  'uvicorn>=0.30.0',
+  'python-multipart>=0.0.9',
+  'numpy==1.24.3',
+  'opencv-python==4.10.0',
+  'matplotlib==3.9.2',
+  'torch==1.12.1',
+  'transformers==4.44.1',
+  'pillow==10.4.0',
+  'ipykernel==6.28.0',
 ]
 
 [project.optional-dependencies]
@@ -31,6 +44,7 @@ dev = [
 [project.scripts]
 render-cli = 'pixelpoint.render:main'
 match-circles-cli = 'pixelpoint.matching:main'
+run-app = 'pixelpoint.main:main'
 
 [build-system]
 requires = [
