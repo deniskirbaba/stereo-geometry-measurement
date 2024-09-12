@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,51 +11,93 @@
         <h1>PixelPoint Case 11</h1>
 
         <div class="form-section">
-            <h2>Upload Images</h2>
-            <div id="image-upload-section">
-                <label for="image1">First Image:</label>
-                <input type="file" id="image1" name="image1"><br>
-                <label for="image2">Second Image:</label>
-                <input type="file" id="image2" name="image2">
+            <h2>Calibration</h2>
+            <div class="switch-container">
+                <label for="calibration-toggle">Calibration Mode</label>
+                <label class="switch">
+                    <input type="checkbox" id="calibration-toggle">
+                    <span class="slider"></span>
+                </label>
             </div>
 
-            <h2 id="model-upload-title" style="display:none;">3D MODELS</h2>
-            <div id="model-upload-section" style="display:none;">
-                <label for="model">Upload 3D Model:</label>
-                <input type="file" id="model" name="model">
+            <div id="calibration-section" style="display: block;">
+                <h2>Upload Calibration File</h2>
+                <label for="calibration_file">Calibration File (JSON):</label>
+                <input type="file" id="calibration_file" name="calibration_file"><br>
+                <button id="calibration-btn" class="submit-btn">Upload Calibration</button>
+            </div>
+
+            <div id="camera-params-section" style="display: none;">
+                <h2>Set Parameters and Upload Calibration Board</h2>
+
+                <label for="focal_length">Focal length:</label>
+                <input type="text" id="focal_length" name="focal_length"><br>
+                <p>Current Focal Length: <span id="focal_length_display"></span></p>
+
+                <label for="pixel_size">Pixel size:</label>
+                <input type="text" id="pixel_size" name="pixel_size"><br>
+                <p>Current Pixel Size: <span id="pixel_size_display"></span></p>
+
+                <label for="sensor_resolution">Distortion vector (now only 0):</label>
+                <input type="text" id="sensor_resolution" name="sensor_resolution" value="0"><br>
+                <p>Current Distortion Vector: <span id="sensor_resolution_display"></span></p>
+
+                <label for="sensor_size">Sensor Size (W H):</label>
+                <input type="text" id="sensor_size" name="sensor_size"><br>
+                <p>Current Sensor Size: <span id="sensor_size_display"></span></p>
+
+                <label for="distance">Distance (1cam_to_obj, 2cam_to_obj, 1cam_to_2cam):</label>
+                <input type="text" id="distance" name="distance"><br>
+                <p>Current Distance: <span id="distance_display"></span></p>
+
+                <label for="chessboard_image1">Calibration Chessboard Image 1:</label>
+                <input type="file" id="chessboard_image1" name="chessboard_image1"><br>
+
+                <label for="chessboard_image2">Calibration Chessboard Image 2:</label>
+                <input type="file" id="chessboard_image2" name="chessboard_image2"><br>
+
+                <label for="tiles">Number of Tiles (AxB):</label>
+                <input type="text" id="tiles" name="tiles"><br>
+                <p>Current Tiles: <span id="tiles_display"></span></p>
+
+                <label for="square_size">Square Size:</label>
+                <input type="text" id="square_size" name="square_size"><br>
+                <p>Current Square Size: <span id="square_size_display"></span></p>
+
+                <button id="upload-params-btn" class="submit-btn">Upload Parameters</button>
             </div>
         </div>
 
         <div class="form-section">
-            <h2>Camera Parameters and Distance</h2>
-            <label for="focal_length">Focal length:</label>
-            <input type="text" id="focal_length" name="focal_length"><br>
-            <p>Current Focal Length: <span id="focal_length_display"></span></p>
+            <h2 id="upload-header">Upload</h2>
+            <div class="switch-container">
+                <label for="model-toggle">3D Model Upload Mode</label>
+                <label class="switch">
+                    <input type="checkbox" id="model-toggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div id="image-upload-section">
+                <h2>Upload Images</h2>
+                <label for="image1">First Image:</label>
+                <input type="file" id="image1" name="image1"><br>
+                <label for="image2">Second Image:</label>
+                <input type="file" id="image2" name="image2"><br>
+                <button id="upload-and-process-btn" class="submit-btn">Upload and Process</button>
+            </div>
 
-            <label for="pixel_size">Pixel size:</label>
-            <input type="text" id="pixel_size" name="pixel_size"><br>
-            <p>Current Pixel Size: <span id="pixel_size_display"></span></p>
+            <div id="model-upload-section" style="display: none;">
+                <h2>Upload 3D Model</h2>
+                <label for="images_count">Images Count:</label>
+                <input type="text" id="images_count" name="images_count"><br>
+                <p>Current Images Count: <span id="images_count_display"></span></p>
 
-            <label for="sensor_resolution">Sensor Resolution:</label>
-            <input type="text" id="sensor_resolution" name="sensor_resolution"><br>
-            <p>Current Sensor Resolution: <span id="sensor_resolution_display"></span></p>
+                <label for="model_file">Upload 3D Model:</label>
+                <input type="file" id="model_file" name="model_file"><br>
 
-            <label for="sensor_size">Sensor Size (W H):</label>
-            <input type="text" id="sensor_size" name="sensor_size"><br>
-            <p>Current Sensor Size: <span id="sensor_size_display"></span></p>
-
-            <label for="distance">Distance:</label>
-            <input type="text" id="distance" name="distance"><br>
-            <p>Current Distance: <span id="distance_display"></span></p>
+                <button id="upload-model-btn" class="submit-btn">Upload 3D Models and Process</button>
+            </div>
         </div>
-
-        <label class="switch">
-            <input type="checkbox" id="switch">
-            <span class="slider"></span>
-            Switch to 3D MODELS
-        </label>
-
-        <button id="process-btn" class="submit-btn">Upload and Process</button>
 
         <div class="form-section">
             <h2>Results</h2>
