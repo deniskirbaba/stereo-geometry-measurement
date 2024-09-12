@@ -18,7 +18,7 @@ def process_images(images, processor):
     return processor(images, return_tensors="pt")
 
 
-def detect_keypoints(images, model, processor):
+def superpoint_detect_keypoints(images, model, processor):
     inputs = process_images(images, processor)
     outputs = model(**inputs)
 
@@ -36,14 +36,14 @@ def detect_keypoints(images, model, processor):
     return results
 
 
-def draw_keypoints(image_np, keypoints, color=(0, 0, 255), radius=2):
+def superpoint_draw_keypoints(image_np, keypoints, color=(0, 0, 255), radius=2):
     for keypoint in keypoints:
         keypoint_x, keypoint_y = int(keypoint[0].item()), int(keypoint[1].item())
         image_np = cv.circle(image_np, (keypoint_x, keypoint_y), radius, color, thickness=-1)
     return image_np
 
 
-def visualize_keypoints(image_results):
+def superpoint_visualize_keypoints(image_results):
     processed_images = []
     for result in image_results:
         image_np = np.transpose(result["input_image"], (1, 2, 0)).numpy()
@@ -55,7 +55,7 @@ def visualize_keypoints(image_results):
 
         image_np = np.ascontiguousarray(image_np)
 
-        image_np = draw_keypoints(image_np, result["keypoints"])
+        image_np = superpoint_draw_keypoints(image_np, result["keypoints"])
 
         processed_images.append(cv.cvtColor(image_np, cv.COLOR_BGR2RGB))
 
@@ -73,22 +73,20 @@ def main():
     parser.add_argument(
         "--image1",
         type=Path,
-        default=Path("data/cam1_1.jpg"),
-        help="Path to the first image. Default is 'data/cam1_1.jpg'.",
+        default=Path("notebooks/feature_detection/data/cam2_1.jpg"),
+        help="Path to the first image. Default is 'notebooks/feature_detection/data/cam2_1.jpg'.",
     )
     parser.add_argument(
         "--image2",
         type=Path,
-        default=Path("data/cam2_1.jpg"),
-        help="Path to the second image. Default is 'data/cam2_1.jpg'.",
+        default=Path("notebooks/feature_detection/data/cam1_1.jpg"),
+        help="Path to the second image. Default is 'notebooks/feature_detection/data/cam1_1.jpg'.",
     )
 
     args = parser.parse_args()
 
-    script_dir = Path(__file__).resolve().parent
-
-    img_1_path = script_dir / args.image1
-    img_2_path = script_dir / args.image2
+    img_1_path = args.image1
+    img_2_path = args.image2
     image_paths = [img_1_path, img_2_path]
 
     images = load_images(image_paths)
@@ -96,8 +94,8 @@ def main():
     processor = AutoImageProcessor.from_pretrained("magic-leap-community/superpoint")
     model = SuperPointForKeypointDetection.from_pretrained("magic-leap-community/superpoint")
 
-    image_results = detect_keypoints(images, model, processor)
-    visualize_keypoints(image_results)
+    image_results = superpoint_detect_keypoints(images, model, processor)
+    superpoint_visualize_keypoints(image_results)
 
 
 if __name__ == "__main__":

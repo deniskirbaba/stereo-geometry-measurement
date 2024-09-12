@@ -38,6 +38,8 @@ dev = [
 [project.scripts]
 render-cli = 'pixelpoint.render:main'
 match-circles-cli = 'pixelpoint.matching:main'
+superpoint-detector = 'pixelpoint.feature_detection.superpoint_detector:main'
+orb-sift-detector = 'pixelpoint.feature_detection.orb_sift_detectors:main'
 
 [build-system]
 requires = [

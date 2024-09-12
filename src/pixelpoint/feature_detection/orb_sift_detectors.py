@@ -5,7 +5,7 @@ import cv2
 import matplotlib.pyplot as plt
 
 
-def extract_keypoints_and_descriptors(img_1_path, img_2_path, detector_type="ORB"):
+def orb_sift_extract_keypoints_and_descriptors(img_1_path, img_2_path, detector_type="ORB"):
     img1 = cv2.imread(str(img_1_path), cv2.IMREAD_GRAYSCALE)
     img2 = cv2.imread(str(img_2_path), cv2.IMREAD_GRAYSCALE)
 
@@ -25,7 +25,7 @@ def extract_keypoints_and_descriptors(img_1_path, img_2_path, detector_type="ORB
     return (keypoints_1, descriptors_1), (keypoints_2, descriptors_2)
 
 
-def draw_keypoints(img_1_path, kp1, img_2_path, kp2):
+def orb_sift_draw_keypoints(img_1_path, kp1, img_2_path, kp2):
     img1 = cv2.imread(str(img_1_path))
     img2 = cv2.imread(str(img_2_path))
 
@@ -66,26 +66,34 @@ def main():
         choices=["ORB", "SIFT"],
         help="Feature detector to use (ORB or SIFT). Default is ORB.",
     )
-    parser.add_argument("--img1", type=Path, default=None, help="Path to the first image. Default is data/cam1_1.jpg.")
-    parser.add_argument("--img2", type=Path, default=None, help="Path to the second image. Default is data/cam2_1.jpg.")
+    parser.add_argument(
+        "--image1",
+        type=Path,
+        default=Path("notebooks/feature_detection/data/cam2_1.jpg"),
+        help="Path to the first image. Default is 'notebooks/feature_detection/data/cam2_1.jpg'.",
+    )
+    parser.add_argument(
+        "--image2",
+        type=Path,
+        default=Path("notebooks/feature_detection/data/cam1_1.jpg"),
+        help="Path to the second image. Default is 'notebooks/feature_detection/data/cam1_1.jpg'.",
+    )
 
     args = parser.parse_args()
 
-    script_dir = Path(__file__).resolve().parent
-    default_img1_path = script_dir / "data" / "cam1_1.jpg"
-    default_img2_path = script_dir / "data" / "cam2_1.jpg"
-
-    img_1_path = args.img1 if args.img1 else default_img1_path
-    img_2_path = args.img2 if args.img2 else default_img2_path
+    img_1_path = args.image1
+    img_2_path = args.image2
 
     try:
-        (kp1, _), (kp2, _) = extract_keypoints_and_descriptors(img_1_path, img_2_path, detector_type=args.detector)
+        (kp1, _), (kp2, _) = orb_sift_extract_keypoints_and_descriptors(
+            img_1_path, img_2_path, detector_type=args.detector
+        )
 
         print(f"Detector: {args.detector}")
         print(f"Keypoints in image 1: {len(kp1)}")
         print(f"Keypoints in image 2: {len(kp2)}")
 
-        draw_keypoints(img_1_path, kp1, img_2_path, kp2)
+        orb_sift_draw_keypoints(img_1_path, kp1, img_2_path, kp2)
 
     except FileNotFoundError as e:
         print(f"Error: {e}")
