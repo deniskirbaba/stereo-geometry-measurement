@@ -12,11 +12,17 @@ requires-python = '==3.10.*'
 
 dependencies = [
   'bpy==4.0.0',
+  'opencv-python==4.10.0.*',
+  'matplotlib>=3.9.2',
   'google-auth==2.34.0',
+  'werkzeug>=1.0.1',
   'pandas>=2.0.0',
   'protobuf>=5.0.0',
   'pyasn1_modules>=0.2.1',
   'six>=1.9.0',
+  'fastapi>=0.114.0',
+  'uvicorn>=0.30.0',
+  'python-multipart>=0.0.9',
   'numpy==1.24.3',
   'opencv-python==4.10.0',
   'matplotlib==3.9.2',
@@ -41,6 +47,9 @@ match-circles-cli = 'pixelpoint.matching:main'
 calibrate-markers = 'pixelpoint.calibration.calibrate_markers:main'
 calibrate-chessboard = 'pixelpoint.calibration.calibrate_chessboard:main'
 calibrate-calculation = 'pixelpoint.calibration.calibrate_calculation:main'
+run-app = 'pixelpoint.main:main'
+superpoint-detector = 'pixelpoint.feature_detection.superpoint_detector:main'
+orb-sift-detector = 'pixelpoint.feature_detection.orb_sift_detectors:main'
 
 [build-system]
 requires = [

@@ -11,7 +11,7 @@ import numpy as np
 def render_paired_images(
     object_path: Path,
     output_dir: Path,
-    object_scale: float,
+    object_scale: float = 5.0,
     distance_between_cameras: float = 412.0,  # Updated distance between cameras
     distance_from_object: float = 639.0,  # Updated distance from center to the object
     focal_length: float = 80.0,  # Updated focal length of the camera
@@ -41,6 +41,8 @@ def render_paired_images(
         Height of the picture resolution.
 
     """
+    output_dir.mkdir(exist_ok=True, parents=True)
+
     _setup_object(object_path=object_path, object_scale=object_scale)
 
     camera1_object, camera2_object = _setup_cameras_position(
