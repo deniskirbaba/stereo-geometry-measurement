@@ -38,6 +38,9 @@ dev = [
 [project.scripts]
 render-cli = 'pixelpoint.render:main'
 match-circles-cli = 'pixelpoint.matching:main'
+calibrate-markers = 'pixelpoint.calibration.calibrate_markers:main'
+calibrate-chessboard = 'pixelpoint.calibration.calibrate_chessboard:main'
+calibrate-calculation = 'pixelpoint.calibration.calibrate_calculation:main'
 
 [build-system]
 requires = [
