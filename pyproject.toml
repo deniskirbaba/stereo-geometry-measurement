@@ -44,6 +44,9 @@ dev = [
 [project.scripts]
 render-cli = 'pixelpoint.render:main'
 match-circles-cli = 'pixelpoint.matching:main'
+calibrate-markers = 'pixelpoint.calibration.calibrate_markers:main'
+calibrate-chessboard = 'pixelpoint.calibration.calibrate_chessboard:main'
+calibrate-calculation = 'pixelpoint.calibration.calibrate_calculation:main'
 run-app = 'pixelpoint.main:main'
 superpoint-detector = 'pixelpoint.feature_detection.superpoint_detector:main'
 orb-sift-detector = 'pixelpoint.feature_detection.orb_sift_detectors:main'

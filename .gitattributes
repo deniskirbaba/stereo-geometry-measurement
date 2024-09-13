@@ -1,5 +1,7 @@
 notebooks/3d_reconstruction/data/** filter=lfs diff=lfs merge=lfs -text
+notebooks/feature_detection/data/** filter=lfs diff=lfs merge=lfs -text
+notebooks/calibration/calibration_images_markers/** filter=lfs diff=lfs merge=lfs -text
+notebooks/calibration/calibration_images_chessboard/** filter=lfs diff=lfs merge=lfs -text
 *.jpg filter=lfs diff=lfs merge=lfs -text
 *.png filter=lfs diff=lfs merge=lfs -text
 *.bin filter=lfs diff=lfs merge=lfs -text
-test_imgs/* filter=lfs diff=lfs merge=lfs -text
