@@ -67,8 +67,8 @@ def _find_homography_sift(image_left: np.ndarray, image_right: np.ndarray) -> np
         raise ValueError(f"Not enough matches are found - {len(good_matches)}/{4}")
 
     # Step 4: Find homography if enough good matches are found
-    src_pts = np.array([kp_left[m.queryIdx].pt for m in good_matches]).reshape((-1, 1, 2))
-    dst_pts = np.array([kp_right[m.trainIdx].pt for m in good_matches]).reshape((-1, 1, 2))
+    src_pts = np.array([kp_left[m.queryIdx].pt for m in good_matches], dtype=np.float32).reshape((-1, 1, 2))
+    dst_pts = np.array([kp_right[m.trainIdx].pt for m in good_matches], dtype=np.float32).reshape((-1, 1, 2))
 
     # Compute the homography matrix using RANSAC
     homography_matrix, _ = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC, 5.0)
