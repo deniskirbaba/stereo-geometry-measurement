@@ -14,7 +14,22 @@ class Circle(NamedTuple):
     x: int  # circle coord by width
 
 
-def match_circles(image_left: np.ndarray, image_right: np.ndarray) -> Tuple[List[Circle], List[Circle]]:
+def draw_images_with_circles(image_left: np.ndarray, image_right: np.ndarray, circles: List[Tuple[Circle, Circle]]):
+    draw_image_left = cv2.cvtColor(image_left, cv2.COLOR_GRAY2RGB)
+    draw_image_right = cv2.cvtColor(image_right, cv2.COLOR_GRAY2RGB)
+
+    for i, (circles_left, circles_right) in enumerate(circles):
+        color_int = np.random.randint(128, 255, 1).item()
+        color = [0 for _ in range(3)]
+        color[i % 3] = color_int
+
+        draw_image_left = cv2.circle(draw_image_left, (circles_left.x, circles_left.y), 10, color, 20)
+        draw_image_right = cv2.circle(draw_image_right, (circles_right.x, circles_right.y), 10, color, 20)
+
+    return draw_image_left, draw_image_right
+
+
+def match_circles(image_left: np.ndarray, image_right: np.ndarray) -> List[Tuple[Circle, Circle]]:
     # Find homography between the two images
     homography_matrix = _find_homography_sift(image_left, image_right)
 
@@ -52,8 +67,8 @@ def _find_homography_sift(image_left: np.ndarray, image_right: np.ndarray) -> np
         raise ValueError(f"Not enough matches are found - {len(good_matches)}/{4}")
 
     # Step 4: Find homography if enough good matches are found
-    src_pts = np.float32([kp_left[m.queryIdx].pt for m in good_matches]).reshape(-1, 1, 2)
-    dst_pts = np.float32([kp_right[m.trainIdx].pt for m in good_matches]).reshape(-1, 1, 2)
+    src_pts = np.array([kp_left[m.queryIdx].pt for m in good_matches], dtype=np.float32).reshape((-1, 1, 2))
+    dst_pts = np.array([kp_right[m.trainIdx].pt for m in good_matches], dtype=np.float32).reshape((-1, 1, 2))
 
     # Compute the homography matrix using RANSAC
     homography_matrix, _ = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC, 5.0)
