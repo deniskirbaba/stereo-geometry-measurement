@@ -88,8 +88,8 @@ calibration-chessboard --images_folder ./chessboard_images --square_size 0.01 --
 
 **Пайплайны**
 
-- [Jupyter блокнот](../../../notebooks/calibration/calibration_real.ipynb) с пайплайном для калибровки стерео-камеры на основе реальных калибровочных изображений с маркерными досками
-- [Jupyter блокнот](../../../notebooks/calibration/calibration_synthetic.ipynb)  с пайплоном для калибровки стерео-камеры на основе синтетических калибровочных изображений с шахматными досками
+- [Jupyter блокнот](notebooks/calibration/calibration_real.ipynb) с пайплайном для калибровки стерео-камеры на основе реальных калибровочных изображений с маркерными досками
+- [Jupyter блокнот](notebooks/calibration/calibration_synthetic.ipynb)  с пайплоном для калибровки стерео-камеры на основе синтетических калибровочных изображений с шахматными досками
 
 Для подробных инструкций и методов калибровки, см. [README модуля калибровки](src/pixelpoint/calibration/README.md).
 
@@ -110,7 +110,7 @@ calibration-chessboard --images_folder ./chessboard_images --square_size 0.01 --
 superpoint-detector --image1 dog_left.jpg --image2 dog.right.jpg
 ```
 
-[Jupyter блокнот](../../../notebooks/feature_detection/feature_detection.ipynb) с подробным описанием методов обнаружения характеристических точек на основе ORB, SIFT и SuperPoint с их сравнением.
+[Jupyter блокнот](notebooks/feature_detection/feature_detection.ipynb) с подробным описанием методов обнаружения характеристических точек на основе ORB, SIFT и SuperPoint с их сравнением.
 
 Более подробная информация о работе модуля и инструкциях по его использованию описана в [README модуля обнаружения характеристических точек](src/pixelpoint/feature_detection/README.md).
 
